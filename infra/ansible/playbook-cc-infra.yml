@@ -2,6 +2,11 @@
 - name: Setup cc-infra VM
   hosts: cc-infra
   become: true
+  handlers:
+    - name: Restart Docker
+      systemd:
+        name: docker
+        state: restarted
 
   tasks:
     - name: Update apt cache
@@ -89,3 +94,30 @@
         path: /etc/environment
         line: 'JAVA_HOME=/usr/lib/jvm/java-25-amazon-corretto'
         create: true
+    
+    # Docker Registry
+    - name: Create registry data directory
+      file:
+        path: /opt/registry/data
+        state: directory
+        mode: '0755'
+
+    - name: Start Docker Registry container
+      docker_container:
+        name: registry
+        image: registry:2
+        state: started
+        restart_policy: always
+        ports:
+          - "5000:5000"
+        volumes:
+          - /opt/registry/data:/var/run/docker/registry
+
+    - name: Configure Docker to trust local registry
+      copy:
+        dest: /etc/docker/daemon.json
+        content: |
+          {
+            "insecure-registries": ["192.168.3.30:5000"]
+          }
+      notify: Restart Docker
