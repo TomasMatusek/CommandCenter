@@ -38,3 +38,8 @@ localhost | SUCCESS => {
     "ping": "pong"
 }
 ```
+
+## Run playbook
+```bash
+$ sudo ansible-playbook -i inventory.ini playbook-cc-infra.yml
+```
