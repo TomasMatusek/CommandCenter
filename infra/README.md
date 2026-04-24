@@ -17,14 +17,24 @@ $ sudo apt install ansible
 
 ## Creating SSH key
 ```bash
-ssh-keygen -t ed25519 -C "cc-infra"
-cat ~/.ssh/id_ed25519.pub
+$ ssh-keygen -t ed25519 -C "cc-infra"
+$ cat ~/.ssh/id_ed25519.pub
 ```
 Copy the output → go to GitHub → Settings → SSH and GPG keys → New SSH key → paste it.
 
 ## Clone repository
 ```bash
-mkdir -p workspace/git
-cd workspace/git
-git clone https://github.com/YOUT_USERNAME/CommandCenter.git
+$ mkdir -p workspace/git
+$ cd workspace/git
+$ git clone https://github.com/YOUT_USERNAME/CommandCenter.git
+```
+
+## Test ansible
+```bash
+$ cd workspace/git/CommandCenter/infra/ansible
+$ ansible -i inventory.ini localhost -m ping
+localhost | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
 ```
