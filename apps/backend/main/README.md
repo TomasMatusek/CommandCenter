@@ -79,3 +79,13 @@ kubectl get deployment -n command-center -o yaml
 | `hpa` | HorizontalPodAutoscaler | Auto-scale pods by metrics       |
 
 > **Tip:** Run `kubectl api-resources` to see all available shorthands in your cluster.
+
+# Installation
+
+Install ansible on cc-infra
+```ssh
+$ sudo apt update
+$ sudo apt install software-properties-common
+$ sudo add-apt-repository --yes --update ppa:ansible/ansible
+$ sudo apt install ansible
+```
