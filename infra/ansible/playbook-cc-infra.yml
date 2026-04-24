@@ -63,3 +63,29 @@
         name: docker
         enabled: true
         state: started
+    
+    # Java 25 (Amazon Corretto)
+    - name: Add Corretto GPG key
+      shell: |
+        curl -fsSL https://apt.corretto.aws/corretto.key | gpg --dearmor -o /etc/apt/keyrings/corretto.gpg
+      args:
+        creates: /etc/apt/keyrings/corretto.gpg
+
+    - name: Add Corretto repository
+      shell: |
+        echo "deb [signed-by=/etc/apt/keyrings/corretto.gpg] https://apt.corretto.aws stable main" | tee /etc/apt/sources.list.d/corretto.list > /dev/null
+      args:
+        creates: /etc/apt/sources.list.d/corretto.list
+
+    - name: Install Java 25 Corretto
+      apt:
+        update_cache: true
+        name:
+          - java-25-amazon-corretto-jdk
+        state: present
+
+    - name: Set JAVA_HOME
+      lineinfile:
+        path: /etc/environment
+        line: 'JAVA_HOME=/usr/lib/jvm/java-25-amazon-corretto'
+        create: true
