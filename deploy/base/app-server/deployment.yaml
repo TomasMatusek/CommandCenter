@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: command-center-main-service
+  namespace: command-center
+spec:
+  replicas: 1
+  resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+  selector:
+    matchLabels:
+      app: command-center-main-service
+  template:
+    metadata:
+      labels:
+        app: command-center-main-service
+    spec:
+      containers:
+        - name: main-service
+          image: command-center-main-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
