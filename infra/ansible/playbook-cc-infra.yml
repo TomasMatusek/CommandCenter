@@ -140,3 +140,27 @@
           REGISTRY_TITLE: "Command Center Registry"
           REGISTRY_URL: "http://192.168.3.30:5000"
           SINGLE_REGISTRY: "true"
+
+    # GitHub Actions Runner
+    - name: Create GitHub runner directory
+      file:
+        path: /opt/github-runner
+        state: directory
+        owner: tomas
+        group: tomas
+        mode: '0755'
+
+    - name: Download GitHub Actions runner
+      get_url:
+        url: https://github.com/actions/runner/releases/download/v2.325.0/actions-runner-linux-x64-2.325.0.tar.gz
+        dest: /opt/github-runner/actions-runner.tar.gz
+      become_user: tomas
+
+    - name: Extract runner
+      unarchive:
+        src: /opt/github-runner/actions-runner.tar.gz
+        dest: /opt/github-runner
+        remote_src: true
+      become_user: tomas
+
+      # Run 'github-runner-registration.sh' from 'scripts' folder wtih GitHub token to regsiter it
