@@ -121,3 +121,17 @@
             "insecure-registries": ["192.168.3.30:5000"]
           }
       notify: Restart Docker
+
+    # Docker Registry UI
+    - name: Start Registry UI
+      docker_container:
+        name: registry-ui
+        image: joxit/docker-registry-ui:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "8080:80"
+        env:
+          REGISTRY_TITLE: "Command Center Registry"
+          REGISTRY_URL: "http://192.168.3.30:5000"
+          SINGLE_REGISTRY: "true"

@@ -39,7 +39,14 @@ localhost | SUCCESS => {
 }
 ```
 
-## Run playbook
+## Run playbook to install everything
 ```bash
 $ sudo ansible-playbook -i inventory.ini playbook-cc-infra.yml
+```
+
+## Check after instalation
+```bash
+$ docker ps
+# docker registry
+$ curl http://localhost:5000/v2/_catalog
 ```
