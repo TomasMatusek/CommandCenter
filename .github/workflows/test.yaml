@@ -1,0 +1,26 @@
+name: Test Runner
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # allows manual trigger
+
+jobs:
+  test:
+    runs-on: [self-hosted, cc-infra]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test Java
+        run: java -version
+
+      - name: Test Docker
+        run: docker ps
+
+      - name: Test Registry
+        run: curl http://192.168.3.30:5000/v2/_catalog
+
+      - name: Hello
+        run: echo "Runner is working!"
