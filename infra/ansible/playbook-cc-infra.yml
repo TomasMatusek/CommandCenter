@@ -112,6 +112,11 @@
           - "5000:5000"
         volumes:
           - /opt/registry/data:/var/run/docker/registry
+        env:
+          REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin: '["http://192.168.3.30:8080"]'
+          REGISTRY_HTTP_HEADERS_Access-Control-Allow-Methods: '["HEAD","GET","OPTIONS","DELETE"]'
+          REGISTRY_HTTP_HEADERS_Access-Control-Allow-Headers: '["Authorization","Accept","Cache-Control"]'
+          REGISTRY_HTTP_HEADERS_Access-Control-Expose-Headers: '["Docker-Content-Digest"]'
 
     - name: Configure Docker to trust local registry
       copy:
